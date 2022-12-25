@@ -6,17 +6,19 @@ from flask import Flask, request
 from telebot import types
 from config import *
 
-bot=telebot.TeleBot(BOT_TOKEN)
+bot=telebot.TeleBot(token=BOT_TOKEN)
+'''
 server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
+
 @bot.message_handler(commands=['start'])
 def start(message):
     username = message.from_user.username
     bot.reply_to(message, f"Hello, {username}!")
     #bot.send_message(message.chat.id, message)
-
 '''
+
 @bot.message_handler(commands=['start'])
 def start(message):
     #bot.send_message(message.chat.id, message)
@@ -26,13 +28,6 @@ def start(message):
     btn_magaz = types.KeyboardButton("Магазин запчастей")
     markup.add(btn_remont, btn_magaz)
     bot.send_message(message.chat.id, name, reply_markup=markup)
-@server.route(f"/{BOT_TOKEN}", methods=["POST"])
-def redirect_message():
-    json_string = request.get_data().decode("utf-8")
-    update = telebot.types.update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
-
 @bot.message_handler(content_types=['text'])
 def get_user_text(message):
     if message.text == "Магазин запчастей":
@@ -65,6 +60,7 @@ def get_user_text(message):
                 bot.send_message(message.chat.id, 'Заявка принята. Очень скоро мы позвоним вам. \n Если вам нужно что-то ещё, нажмите /start', reply_markup=types.ReplyKeyboardRemove())
     else:
         bot.send_message(message.chat.id, 'Что-то пошло не так... \n Нажмите /start и начните сначала')
+bot.polling(none_stop=True)
 '''
 @server.route(f"/{BOT_TOKEN}", methods=["POST"])
 def redirect_message():
@@ -77,3 +73,4 @@ if __name__ == "__main__":
     bot.remove_webhook()
     bot.set_webhook(url=APP_URL)
     server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+'''
