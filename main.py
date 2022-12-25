@@ -1,5 +1,4 @@
 import os
-
 import telebot
 import logging
 from flask import Flask, request
@@ -11,7 +10,17 @@ bot=telebot.TeleBot(BOT_TOKEN)
 server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
+@bot.message_handler(commands=['start'])
+def start(message):
+    #bot.send_message(message.chat.id, message)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    name = f'Здравствуйте, {message.from_user.first_name}, что вас интересует?'
+    btn_remont = types.KeyboardButton("Ремонт спецтехники")
+    btn_magaz = types.KeyboardButton("Магазин запчастей")
+    markup.add(btn_remont, btn_magaz)
+    bot.send_message(message.chat.id, name, reply_markup=markup)
 
+'''
 @bot.message_handler(commands=['start'])
 def start(message):
     #bot.send_message(message.chat.id, message)
@@ -60,7 +69,7 @@ def get_user_text(message):
                 bot.send_message(message.chat.id, 'Заявка принята. Очень скоро мы позвоним вам. \n Если вам нужно что-то ещё, нажмите /start', reply_markup=types.ReplyKeyboardRemove())
     else:
         bot.send_message(message.chat.id, 'Что-то пошло не так... \n Нажмите /start и начните сначала')
-
+'''
 @server.route(f"/{BOT_TOKEN}", methods=["POST"])
 def redirect_message():
     json_string = request.get_data().decode("utf-8")
