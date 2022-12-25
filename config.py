@@ -1,0 +1,3 @@
+BOT_TOKEN = "5954048662:AAGUKBm5gYp6GYP9YTAv7S0WA2aWoGIqPYE"
+APP_URL = "https://gidroservis-bot.herokuapp.com/" + BOT_TOKEN
+TO_CHAT_ID = 5847177719
