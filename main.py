@@ -8,7 +8,6 @@ from telebot import types
 from config import *
 
 bot=telebot.TeleBot(BOT_TOKEN)
-
 server = Flask(__name__)
 logger = telebot.logger
 logger.setLevel(logging.DEBUG)
@@ -55,6 +54,13 @@ def get_user_text(message):
                 bot.send_message(message.chat.id, 'Заявка принята. Очень скоро мы позвоним вам. \n Если вам нужно что-то ещё, нажмите /start', reply_markup=types.ReplyKeyboardRemove())
     else:
         bot.send_message(message.chat.id, 'Что-то пошло не так... \n Нажмите /start и начните сначала')
+
+@server.route(f"/{BOT_TOKEN}", methods=["POST"])
+def redirect_message():
+    json_string = request.get_data().decode("utf-8")
+    update = telebot.types.update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
 
 if __name__ == "__main__":
     bot.remove_webhook()
