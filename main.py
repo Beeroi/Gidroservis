@@ -12,13 +12,9 @@ logger = telebot.logger
 logger.setLevel(logging.DEBUG)
 @bot.message_handler(commands=['start'])
 def start(message):
+    username = message.from_user.username
+    bot.reply_to(message, f"Hello, {username}!")
     #bot.send_message(message.chat.id, message)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    name = f'Здравствуйте, {message.from_user.first_name}, что вас интересует?'
-    btn_remont = types.KeyboardButton("Ремонт спецтехники")
-    btn_magaz = types.KeyboardButton("Магазин запчастей")
-    markup.add(btn_remont, btn_magaz)
-    bot.send_message(message.chat.id, name, reply_markup=markup)
 
 '''
 @bot.message_handler(commands=['start'])
