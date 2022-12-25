@@ -21,6 +21,12 @@ def start(message):
     btn_magaz = types.KeyboardButton("Магазин запчастей")
     markup.add(btn_remont, btn_magaz)
     bot.send_message(message.chat.id, name, reply_markup=markup)
+@server.route(f"/{BOT_TOKEN}", methods=["POST"])
+def redirect_message():
+    json_string = request.get_data().decode("utf-8")
+    update = telebot.types.update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
 
 @bot.message_handler(content_types=['text'])
 def get_user_text(message):
